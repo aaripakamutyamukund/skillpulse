@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}Professor Dashboard - SkillPulse{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+
+    <div>
+        <p class="small-title">PROFESSOR DASHBOARD</p>
+
+        <h1>Student Skill Intelligence</h1>
+
+        <p>
+            Analyze which skills are most popular among students
+            and identify topics for special classes.
+        </p>
+    </div>
+
+    <a href="{{ url_for('add_student') }}" class="btn primary">
+        + Add Student
+    </a>
+
+</section>
+
+
+<!-- Statistics -->
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+
+        <span class="stat-icon">👨‍🎓</span>
+
+        <div>
+            <p>Total Students</p>
+            <h2>{{ total_students }}</h2>
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span class="stat-icon">💡</span>
+
+        <div>
+            <p>Unique Skills</p>
+            <h2>{{ total_skills }}</h2>
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span class="stat-icon">📊</span>
+
+        <div>
+            <p>Ranking Method</p>
+            <h2>Max Heap</h2>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Skill Demand Ranking -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="small-title">DSA ANALYSIS</p>
+
+            <h2>Skill Demand Ranking</h2>
+
+            <p>
+                Skills are ranked according to the number
+                of students associated with each skill.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if ranking %}
+
+    <div class="ranking-list">
+
+        {% for item in ranking %}
+
+        <div class="ranking-card">
+
+            <div class="rank-number">
+                {{ loop.index }}
+            </div>
+
+
+            <div class="skill-info">
+
+                <div class="skill-title-row">
+
+                    <h3>
+                        {{ item.skill }}
+                    </h3>
+
+                    <span class="student-count">
+
+                        {{ item.count }}
+
+                        student{% if item.count != 1 %}s{% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <!-- Progress Bar -->
+
+                <div class="progress-container">
+
+                    {% set max_count = ranking[0].count %}
+
+                    {% if max_count > 0 %}
+
+                        {% set percentage =
+                            (item.count / max_count * 100) | round
+                        %}
+
+                    {% else %}
+
+                        {% set percentage = 0 %}
+
+                    {% endif %}
+
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ percentage }}%;">
+                    </div>
+
+                </div>
+
+
+                <!-- Students -->
+
+                <div class="student-tags">
+
+                    {% for student in item.students %}
+
+                    <span class="student-tag">
+                        {{ student.name }}
+                    </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+    <!-- No Data -->
+
+    <div class="empty-state">
+
+        <h3>No skill data available</h3>
+
+        <p>
+            Add student profiles to generate the skill ranking.
+        </p>
+
+        <a
+            href="{{ url_for('add_student') }}"
+            class="btn primary">
+            Add Student
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Special Class Recommendation -->
+
+{% if ranking %}
+
+{% set top_skill = ranking[0] %}
+
+<section class="special-class">
+
+    <div class="signal-icon">
+        🎯
+    </div>
+
+
+    <div class="signal-content">
+
+        <p class="small-title">
+            SPECIAL CLASS SIGNAL
+        </p>
+
+        <h2>
+            {{ top_skill.skill }} has the highest demand
+        </h2>
+
+        <p>
+
+            {{ top_skill.count }}
+
+            student{% if top_skill.count != 1 %}s{% endif %}
+
+            currently have this skill listed.
+
+            This topic can be considered for a focused
+            learning session.
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<!-- DSA Explanation -->
+
+<section class="dsa-section">
+
+    <p class="small-title">
+        DATA STRUCTURES USED
+    </p>
+
+    <h2>
+        How SkillPulse processes the data
+    </h2>
+
+
+    <div class="dsa-grid">
+
+
+        <!-- HashMap -->
+
+        <div class="dsa-card">
+
+            <h3>HashMap</h3>
+
+            <p>
+                Stores each skill and the students associated
+                with that skill.
+            </p>
+
+            <code>
+                skill → students
+            </code>
+
+        </div>
+
+
+        <!-- Set -->
+
+        <div class="dsa-card">
+
+            <h3>Set</h3>
+
+            <p>
+                Prevents the same student from being added
+                repeatedly to the same skill.
+            </p>
+
+            <code>
+                (skill, roll_no)
+            </code>
+
+        </div>
+
+
+        <!-- Max Heap -->
+
+        <div class="dsa-card">
+
+            <h3>Max Heap</h3>
+
+            <p>
+                Ranks skills according to the number of students
+                associated with each skill.
+            </p>
+
+            <code>
+                highest demand → top
+            </code>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+{% endblock %}

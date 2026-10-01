@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}SkillPulse - Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <p class="tagline">
+            COLLEGE SKILL INTELLIGENCE PLATFORM
+        </p>
+
+        <h1>
+            Discover Skills.<br>
+            Build Better Classes.
+        </h1>
+
+        <p>
+            SkillPulse helps students share their skills and interests,
+            while professors can understand which skills are in demand
+            across the college.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('add_student') }}"
+               class="btn primary">
+                Post Your Skills
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="btn secondary">
+                View Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-card">
+
+        <div class="pulse-circle">
+            📊
+        </div>
+
+        <h3>Skill Demand</h3>
+
+        <p>
+            Find out what students are learning
+            and what skills need more attention.
+        </p>
+
+        <div class="mini-stats">
+
+            <div>
+                <strong>{{ total_students }}</strong>
+                <span>Students</span>
+            </div>
+
+            <div>
+                <strong>DSA</strong>
+                <span>Popular Skill</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <p class="small-title">HOW IT WORKS</p>
+
+            <h2>
+                Turn student skills into useful insights
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                👨‍🎓
+            </div>
+
+            <h3>1. Students Post</h3>
+
+            <p>
+                Students add their skills and learning interests
+                to the platform.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🧠
+            </div>
+
+            <h3>2. DSA Organizes</h3>
+
+            <p>
+                HashMap, Set and Priority Queue organize
+                and rank the collected skill data.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                👨‍🏫
+            </div>
+
+            <h3>3. Professors Analyze</h3>
+
+            <p>
+                Professors can identify highly demanded skills
+                and plan special classes.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section recent-section">
+
+    <div class="section-heading">
+
+        <div>
+            <p class="small-title">RECENT PROFILES</p>
+
+            <h2>Students on SkillPulse</h2>
+        </div>
+
+        <a href="{{ url_for('add_student') }}"
+           class="text-link">
+            + Add Student
+        </a>
+
+    </div>
+
+
+    {% if students %}
+
+    <div class="student-grid">
+
+        {% for student in students %}
+
+        <div class="student-card">
+
+            <div class="avatar">
+                {{ student["name"][0].upper() }}
+            </div>
+
+            <div>
+
+                <h3>
+                    {{ student["name"] }}
+                </h3>
+
+                <p class="roll">
+                    {{ student["roll_no"] }}
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    {{ student["skills"] or "Not added" }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <h3>No students added yet</h3>
+
+        <p>
+            Be the first student to add your skills.
+        </p>
+
+        <a href="{{ url_for('add_student') }}"
+           class="btn primary">
+            Add Your Skills
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<section class="cta-section">
+
+    <div>
+
+        <p class="small-title">
+            FOR PROFESSORS
+        </p>
+
+        <h2>
+            Which skills are students asking for?
+        </h2>
+
+        <p>
+            Use the dashboard to identify skill demand
+            and plan focused learning sessions.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('dashboard') }}"
+       class="btn primary">
+        Open Dashboard →
+    </a>
+
+</section>
+
+{% endblock %}

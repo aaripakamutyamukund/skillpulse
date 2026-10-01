@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Search Skills - SkillPulse{% endblock %}
+
+{% block content %}
+
+<section class="search-section">
+
+    <div class="search-header">
+
+        <p class="small-title">SKILL SEARCH</p>
+
+        <h1>Find a Skill</h1>
+
+        <p>
+            Search for a skill and see which students
+            have listed it.
+        </p>
+
+    </div>
+
+
+    <form method="GET"
+          action="{{ url_for('search_skill') }}"
+          class="search-form">
+
+        <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search e.g. Python, DSA, Java..."
+        >
+
+        <button type="submit"
+                class="btn primary">
+            Search
+        </button>
+
+    </form>
+
+
+    {% if query %}
+
+        <div class="search-result-header">
+
+            <h2>
+                Results for "{{ query }}"
+            </h2>
+
+            <span>
+                {{ results|length }} skill result(s)
+            </span>
+
+        </div>
+
+
+        {% if results %}
+
+            <div class="search-results">
+
+                {% for result in results %}
+
+                    <div class="result-card">
+
+                        <div class="result-main">
+
+                            <div class="result-icon">
+                                🔎
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    {{ result.skill }}
+                                </h3>
+
+                                <p>
+                                    {{ result.count }}
+                                    student{% if result.count != 1 %}s{% endif %}
+                                    have listed this skill.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="student-list">
+
+                            {% for student in result.students %}
+
+                                <div class="student-row">
+
+                                    <div class="avatar small">
+                                        {{ student.name[0].upper() }}
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            {{ student.name }}
+                                        </strong>
+
+                                        <span>
+                                            {{ student.roll_no }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🔍
+                </div>
+
+                <h3>No matching skills found</h3>
+
+                <p>
+                    Try searching for Python, DSA, Java,
+                    Cyber Security, or another skill.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    {% else %}
+
+        <div class="search-tips">
+
+            <h3>Try searching for</h3>
+
+            <div class="skill-chips">
+
+                <a href="{{ url_for('search_skill', q='Python') }}">
+                    Python
+                </a>
+
+                <a href="{{ url_for('search_skill', q='DSA') }}">
+                    DSA
+                </a>
+
+                <a href="{{ url_for('search_skill', q='Java') }}">
+                    Java
+                </a>
+
+                <a href="{{ url_for('search_skill', q='Cyber Security') }}">
+                    Cyber Security
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

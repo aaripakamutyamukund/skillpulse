@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Post Skills - SkillPulse{% endblock %}
+
+{% block content %}
+
+<section class="form-section">
+
+    <div class="form-header">
+
+        <p class="small-title">
+            STUDENT PROFILE
+        </p>
+
+        <h1>Share Your Skills</h1>
+
+        <p>
+            Tell us what you know and what you want to learn.
+            This information helps professors understand
+            student skill demand.
+        </p>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <form method="POST">
+
+            <div class="form-group">
+
+                <label for="name">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="roll_no">
+                    Roll Number
+                </label>
+
+                <input
+                    type="text"
+                    id="roll_no"
+                    name="roll_no"
+                    placeholder="Example: 23A01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="skills">
+                    Your Skills
+                </label>
+
+                <input
+                    type="text"
+                    id="skills"
+                    name="skills"
+                    placeholder="Example: Python, DSA, Java"
+                >
+
+                <small>
+                    Separate multiple skills using commas.
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="interests">
+                    Learning Interests
+                </label>
+
+                <input
+                    type="text"
+                    id="interests"
+                    name="interests"
+                    placeholder="Example: Web Development"
+                >
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn primary">
+                    Submit Skills
+                </button>
+
+                <a
+                    href="{{ url_for('home') }}"
+                    class="btn secondary">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
